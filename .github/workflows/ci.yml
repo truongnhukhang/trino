@@ -676,6 +676,17 @@ jobs:
             - default
             - hdp3
             # TODO: config-apache-hive3
+          ignore exclusion if:
+            # Do not use this property outside of the matrix configuration.
+            #
+            # This is added to all matrix entries so they may be conditionally
+            # excluded by adding them to the excludes list with a GHA expression
+            # for this property.
+            # - If the expression evaluates to true, it will never match the a
+            #   actual value of the property, and will therefore not be excluded.
+            # - If the expression evaluates to false, it will match the actual
+            #   value of the property, and the exclusion will apply normally.
+            - "false"
           suite:
             - suite-1
             - suite-2
@@ -726,17 +737,6 @@ jobs:
               ignore exclusion if: >-
                 ${{ secrets.DATABRICKS_TOKEN != '' }}
 
-          ignore exclusion if:
-            # Do not use this property outside of the matrix configuration.
-            #
-            # This is added to all matrix entries so they may be conditionally
-            # excluded by adding them to the excludes list with a GHA expression
-            # for this property.
-            # - If the expression evaluates to true, it will never match the a
-            #   actual value of the property, and will therefore not be excluded.
-            # - If the expression evaluates to false, it will match the actual
-            #   value of the property, and the exclusion will apply normally.
-            - "false"
           include:
             # this suite is not meant to be run with different configs
             - config: default
