@@ -51,6 +51,7 @@ public class BigQueryConfig
     private boolean caseInsensitiveNameMatching;
     private Duration viewsCacheTtl = new Duration(15, MINUTES);
     private Duration serviceCacheTtl = new Duration(3, MINUTES);
+    private Duration metadataCacheTtl = new Duration(1, MINUTES);
     private boolean queryResultsCacheEnabled;
 
     private int rpcInitialChannelCount = 1;
@@ -219,6 +220,21 @@ public class BigQueryConfig
     public BigQueryConfig setServiceCacheTtl(Duration serviceCacheTtl)
     {
         this.serviceCacheTtl = serviceCacheTtl;
+        return this;
+    }
+
+    @NotNull
+    @MinDuration("0m")
+    public Duration getMetadataCacheTtl()
+    {
+        return metadataCacheTtl;
+    }
+
+    @Config("bigquery.metadata-cache-ttl")
+    @ConfigDescription("Duration for which BigQuery client metadata is cached after listing")
+    public BigQueryConfig setMetadataCacheTtl(Duration metadataCacheTtl)
+    {
+        this.metadataCacheTtl = metadataCacheTtl;
         return this;
     }
 
