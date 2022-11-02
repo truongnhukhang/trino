@@ -14,10 +14,11 @@
 package io.trino.plugin.hive.metastore.thrift;
 
 import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
 
 import java.util.Optional;
 
 public interface HiveMetastoreAuthentication
 {
-    TTransport authenticate(TTransport rawTransport, String hiveMetastoreHost, Optional<String> delegationToken);
+    TTransport authenticate(TTransport rawTransport, String hiveMetastoreHost, Optional<String> delegationToken) throws TTransportException;
 }

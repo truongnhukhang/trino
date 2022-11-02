@@ -22,6 +22,7 @@ import org.apache.hadoop.security.SaslRpcServer;
 import org.apache.hadoop.security.token.Token;
 import org.apache.thrift.transport.TSaslClientTransport;
 import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
 
 import javax.inject.Inject;
 import javax.security.auth.callback.Callback;
@@ -64,7 +65,7 @@ public class KerberosHiveMetastoreAuthentication
     }
 
     @Override
-    public TTransport authenticate(TTransport rawTransport, String hiveMetastoreHost, Optional<String> delegationToken)
+    public TTransport authenticate(TTransport rawTransport, String hiveMetastoreHost, Optional<String> delegationToken) throws TTransportException
     {
         try {
             String serverPrincipal = getServerPrincipal(hiveMetastoreServicePrincipal, hiveMetastoreHost);
@@ -100,8 +101,8 @@ public class KerberosHiveMetastoreAuthentication
 
             return new TUGIAssumingTransport(saslTransport, authentication.getUserGroupInformation());
         }
-        catch (IOException e) {
-            throw new UncheckedIOException(e);
+        catch (IOException ioe) {
+            throw new UncheckedIOException(ioe);
         }
     }
 
